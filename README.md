@@ -1,0 +1,3 @@
+# NoteHive
+
+NoteHive is a robust full-stack note-taking application designed to keep your thoughts, tasks, and ideas organized. With features like secure authentication, note-taking, editing, deleting, and updating, NoteHive ensures that your notes are always at your fingertips. Additional features include categorizing notes, setting reminders, and a search functionality that helps you find your notes quickly and efficiently.
