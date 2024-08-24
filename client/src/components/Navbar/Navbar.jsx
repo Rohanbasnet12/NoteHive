@@ -6,7 +6,7 @@ import SearchBar from "../SearchBar/SearchBar";
 
 const Navbar = () => {
   return (
-    <header id="navbar" className="z-50 relative">
+    <header id="navbar">
       <nav className="flex justify-between items-center">
         <div className="nav-head">
           <Link to={"/"}>

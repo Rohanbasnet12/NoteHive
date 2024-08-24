@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import { basicSchema } from "../../schemas/LoginSchema";
-import PasswordInput from "../../components/PasswordInput/PasswordInput";
+import PasswordInput from "../../components/Input/PasswordInput";
 import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import "./Login.css";

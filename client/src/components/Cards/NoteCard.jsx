@@ -11,14 +11,17 @@ const NoteCard = ({
   onPinNote,
 }) => {
   return (
-    <div className="z-20 border-2 p-4 rounded hover:shadow-xl transition-all ease relative">
+    <div className="border-2 p-4 rounded hover:shadow-xl transition-all ease relative">
       <div className="flex items-center justify-between">
         <div>
           <h6 className="text-sm font-medium">{title}</h6>
           <span className="text-xs text-slate-500">{date}</span>
         </div>
 
-        <i className="fa-solid fa-thumbtack" onClick={onPinNote}></i>
+        <i
+          className="fa-solid fa-thumbtack text-blue-500"
+          onClick={onPinNote}
+        ></i>
       </div>
 
       <p className="text-xm text-slate-600 mt-2">{content?.slice(0, 60)}</p>

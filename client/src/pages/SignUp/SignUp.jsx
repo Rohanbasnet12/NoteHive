@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./SignUp.css";
 import { useFormik } from "formik";
 import { registrationSchema } from "../../schemas/RegistrationSchema";
-import PasswordInput from "../../components/PasswordInput/PasswordInput";
+import PasswordInput from "../../components/Input/PasswordInput";
 import Navbar from "../../components/Navbar/Navbar";
 import { Link } from "react-router-dom";
 

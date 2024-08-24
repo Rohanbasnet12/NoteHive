@@ -16,7 +16,7 @@ const SearchBar = ({ onSearch }) => {
             type="text"
             name="query"
             placeholder="Search..."
-            className="border p-1 rounded"
+            className="border py-1 px-4 rounded"
           />
 
           <button
