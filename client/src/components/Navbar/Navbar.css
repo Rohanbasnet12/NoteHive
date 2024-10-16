@@ -1,9 +1,0 @@
-#navbar {
-    border-bottom: 2px solid gray;
-    box-shadow: 0px 1px 20px 2px #8a8a8a;
-    padding: 1.2rem 1rem;
-}
-
-.nav-head h1 {
-    cursor: pointer;
-}
