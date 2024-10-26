@@ -7,7 +7,6 @@ import PasswordInput from "../../components/PasswordInput";
 
 const Login = () => {
   const onSubmit = async (values, actions) => {
-    console.log(values);
     await new Promise((resolve) => setTimeout(resolve, 500));
     actions.resetForm();
   };
@@ -25,7 +24,7 @@ const Login = () => {
   return (
     <>
       <Navbar />
-      <div id="login" className="flex items-center justify-center mt-14">
+      <div id="login" className="flex items-center justify-center mt-24">
         <form onSubmit={handleSubmit} className="w-[350px]">
           <h1 className="text-center text-4xl font-bold py-4">Login</h1>
           <div className="email-input pt-4">
