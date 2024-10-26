@@ -4,7 +4,7 @@ const DropDownMenu = () => {
   return (
     <div
       id="DropDownMenu"
-      className="absolute border-2 rounded-lg top-[85px] left-[87%] p-4"
+      className="absolute border-2 rounded-lg top-[85px] left-[87%] p-4 z-50"
     >
       <h3 className="border-b-2 pb-3">Rohan Basnet</h3>
 

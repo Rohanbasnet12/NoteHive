@@ -1,5 +1,6 @@
 import React from "react";
 import ProfileCard from "./ProfileCard";
+import SearchBar from "./SearchBar";
 
 const Navbar = () => {
   return (
@@ -10,6 +11,9 @@ const Navbar = () => {
             NoteHive
             <span className="text-orange-600">.</span>
           </h1>
+        </div>
+        <div className="nav-searchBar">
+          <SearchBar />
         </div>
         <div className="nav-profile-card">
           <ProfileCard />
