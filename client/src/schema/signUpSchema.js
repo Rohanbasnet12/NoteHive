@@ -15,7 +15,7 @@ const passwordSchema = yup.string()
     .required("Password is required");
 
 export const signUpSchema = yup.object().shape({
-    username: usernameSchema,
+    name: usernameSchema,
     email: yup.string().email("Please enter a valid email").required("Email is required"),
     password: passwordSchema,
 });
