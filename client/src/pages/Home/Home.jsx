@@ -14,6 +14,11 @@ const Home = () => {
             title="GYM"
             date="28 october 2024"
             content="Go to the GYM at 6:30"
+            tags="#GYM"
+            isPinned={true}
+            onDelete={() => {}}
+            onEdit={() => {}}
+            onPinNote={() => {}}
           />
         </div>
       </div>
