@@ -11,7 +11,7 @@ const ProfileCard = () => {
           onClick={() => SetShowDropDown((prev) => !prev)}
           className="bg-transparent text-xl font-bold cursor-pointer select-none"
         >
-          P
+          R
         </h1>
       </div>
       <div className="dropDown-profile-item">
