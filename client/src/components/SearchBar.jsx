@@ -3,7 +3,7 @@ import React from "react";
 const SearchBar = ({ value, onChange, handleSearch }) => {
   return (
     <div id="searchBar">
-      <div className="searchBar_wrapper border-2 border-blue-200 rounded-md flex items-center justify-between px-2 gap-2 bg-blue-100/70">
+      <div className="searchBar_wrapper border-2 border-gray-200 rounded-md flex items-center justify-between px-2 gap-2 bg-gray-100/70">
         <input
           type="text"
           name="searchBar"
