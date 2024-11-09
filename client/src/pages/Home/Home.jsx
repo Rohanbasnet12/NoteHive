@@ -52,7 +52,7 @@ const Home = () => {
           },
           content: {
             width: "40%",
-            maxHeight: "75vh",
+            maxHeight: "80vh",
             backgroundColor: "white",
             borderRadius: "8px",
             margin: "auto",
