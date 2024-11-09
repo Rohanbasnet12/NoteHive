@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "../../components/Navbar";
 import Background from "../../components/Background";
 import NoteCard from "../../components/NoteCard";
+import AddEditNote from "./AddEditNote";
 
 const Home = () => {
   return (
@@ -31,6 +32,8 @@ const Home = () => {
       >
         <i className="fa-solid fa-plus text-[32px] text-white bg-transparent" />
       </button>
+
+      <AddEditNote />
     </>
   );
 };
