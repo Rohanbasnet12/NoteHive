@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../../components/Navbar";
 import Background from "../../components/Background";
 import NoteCard from "../../components/NoteCard";
 import AddEditNote from "./AddEditNote";
+import Modal from "react-modal";
 
+Modal.setAppElement("#root");
 const Home = () => {
+  const [openAddEditModal, setOpenAddEditModal] = useState({
+    isShown: false,
+    type: "add",
+    data: null,
+  });
+
   return (
     <>
       <Navbar />
@@ -28,12 +36,39 @@ const Home = () => {
 
       <button
         className="w-16 h-16 flex items-center justify-center rounded-2xl bg-blue-600 hover:bg-blue-500 absolute right-10 bottom-10 z-50"
-        onClick={() => {}}
+        onClick={() => {
+          setOpenAddEditModal({ isShown: true, type: "add", data: null });
+        }}
       >
         <i className="fa-solid fa-plus text-[32px] text-white bg-transparent" />
       </button>
 
-      <AddEditNote />
+      <Modal
+        isOpen={openAddEditModal.isShown}
+        onRequestClose={() => {}}
+        style={{
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.3)",
+          },
+          content: {
+            width: "40%",
+            maxHeight: "75vh",
+            backgroundColor: "white",
+            borderRadius: "8px",
+            margin: "auto",
+            padding: "20px",
+            overflow: "auto",
+            top: "15%",
+            left: "50%",
+            transform: "translateX(-125%)",
+            zIndex: 100,
+          },
+        }}
+        contentLabel=""
+        className="w-[40%] max-h-3/4 bg-white rounded-md mx-auto mt-18 p-5 overflow-scroll relative z-[100]"
+      >
+        <AddEditNote />
+      </Modal>
     </>
   );
 };

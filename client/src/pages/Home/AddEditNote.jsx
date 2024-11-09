@@ -2,21 +2,24 @@ import React from "react";
 
 const AddEditNote = () => {
   return (
-    <div>
-      <div className="flex flex-col gap-2">
-        <label className="text-xs text-slate-400" label="edit-title">
+    <div className="bg-white">
+      <div className="flex flex-col gap-2 bg-white">
+        <label className="text-xs text-slate-400 bg-white" label="edit-title">
           Title
         </label>
         <input
           id="edit-title"
           type="text"
-          className="text-2xl text-slate-900 outline-none"
+          className="text-2xl text-slate-900 outline-none bg-white"
           placeholder="Go To Gym at 8"
         />
       </div>
 
-      <div className="flex flex-col gap-2 mt-4">
-        <label className="text-xs text-slate-400" htmlFor="edit-description">
+      <div className="flex flex-col gap-2 mt-4 bg-white">
+        <label
+          className="text-xs text-slate-400 bg-white"
+          htmlFor="edit-description"
+        >
           Content
         </label>
         <textarea
@@ -28,8 +31,8 @@ const AddEditNote = () => {
         />
       </div>
 
-      <div className="mt-3">
-        <label className="text-xs text-slate-400" htmlFor="edit-tags">
+      <div className="mt-3 bg-white">
+        <label className="text-xs text-slate-400 bg-white" htmlFor="edit-tags">
           Tags
         </label>
       </div>
