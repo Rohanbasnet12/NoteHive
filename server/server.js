@@ -121,7 +121,7 @@ app.post("/login", async (req, res) => {
 });
 
 // Add Notes
-app.post("/add-note", authenticateToken, async (req, res) => {
+app.post("/add-note/:noteId", authenticateToken, async (req, res) => {
   const { title, content, tags = [], isPinned = false } = req.body; // Default tags to empty array and isPinned to false
   const { id: user_id } = req.user; // Extract user_id from req.user
 
@@ -146,6 +146,14 @@ app.post("/add-note", authenticateToken, async (req, res) => {
       message: "Note added successfully",
       note: result.rows[0],
     });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
+
+// Edit Note
+app.put("/edit-note", authenticateToken, async (req, res) => {
+  try {
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }
