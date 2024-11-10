@@ -1,11 +1,15 @@
 import express from "express";
-
-require("dotenv").config();
+import cors from "cors";
 
 const app = express();
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 app.get("/", (req, res) => {
-  app.render("hello");
+  res.json({ data: "Hello" });
 });
 
-app.listen();
+app.listen(3000);
