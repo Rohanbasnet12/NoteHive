@@ -2,9 +2,9 @@ import jwt from "jsonwebtoken";
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
-  const token = authHeader && arguments.split(" ")[1];
+  const token = authHeader && authHeader.split(" ")[1];
 
-  if (!token) res.sendStatus(401);
+  if (!token) return res.sendStatus(401);
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) return res.sendStatus(401);
@@ -13,6 +13,4 @@ function authenticateToken(req, res, next) {
   });
 }
 
-module.exports = {
-  authenticateToken,
-};
+export default authenticateToken;

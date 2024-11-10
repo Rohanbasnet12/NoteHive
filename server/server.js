@@ -4,7 +4,7 @@ import pg from "pg";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import authenticateToken from "./utils";
+import authenticateToken from "./utils.js";
 
 dotenv.config(); // Load environment variables
 
@@ -121,12 +121,33 @@ app.post("/login", async (req, res) => {
 });
 
 // Add Notes
-app.post("/add", authenticateToken, async (req, res) => {
-  const { title, content, tags } = req.body;
-  const { user } = req.user;
+app.post("/add-note", authenticateToken, async (req, res) => {
+  const { title, content, tags = [], isPinned = false } = req.body; // Default tags to empty array and isPinned to false
+  const { id: user_id } = req.user; // Extract user_id from req.user
 
   if (!title) {
-    res.status(400).json({ error: true, message: "Title is required" });
+    return res.status(400).json({ error: true, message: "Title is required" });
+  }
+
+  if (!content) {
+    return res
+      .status(400)
+      .json({ error: true, message: "Content is required" });
+  }
+
+  try {
+    const result = await db.query(
+      `INSERT INTO notes (user_id, title, content, tags, isPinned) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+      [user_id, title, content, tags, isPinned]
+    );
+
+    res.status(201).json({
+      success: true,
+      message: "Note added successfully",
+      note: result.rows[0],
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
   }
 });
 
