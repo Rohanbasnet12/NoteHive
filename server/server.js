@@ -4,6 +4,7 @@ import pg from "pg";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import authenticateToken from "./utils";
 
 dotenv.config(); // Load environment variables
 
@@ -28,19 +29,23 @@ app.get("/", (req, res) => {
   res.json({ data: "Hello" });
 });
 
-// Create Account
-app.post("/create-account", async (req, res) => {
+// Create an Account
+app.post("/signup", async (req, res) => {
   const { username, email, password } = req.body;
 
   // Validation checks
   if (!username) {
-    return res.status(400).json({ message: "Username is required" });
+    return res
+      .status(400)
+      .json({ error: true, message: "Username is required" });
   }
   if (!email) {
-    return res.status(400).json({ message: "Email is required" });
+    return res.status(400).json({ error: true, message: "Email is required" });
   }
   if (!password) {
-    return res.status(400).json({ message: "Password is required" });
+    return res
+      .status(400)
+      .json({ error: true, message: "Password is required" });
   }
 
   try {
@@ -68,6 +73,60 @@ app.post("/create-account", async (req, res) => {
     } else {
       res.status(500).json({ message: "Server error", error: err.message });
     }
+  }
+});
+
+// Login to the Account
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  // Validation checks
+  if (!email) {
+    return res.status(400).json({ error: true, message: "Email is required" });
+  }
+  if (!password) {
+    return res
+      .status(400)
+      .json({ error: true, message: "Password is required" });
+  }
+
+  try {
+    // Check if the user exists
+    const userResult = await db.query("SELECT * FROM users WHERE email = $1", [
+      email,
+    ]);
+    const user = userResult.rows[0];
+
+    // If no user found or password is incorrect
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { id: user.id, email: user.email },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    // Respond with token and user info
+    res.json({
+      message: "Login successful",
+      user: { id: user.id, email: user.email },
+      token,
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
+
+// Add Notes
+app.post("/add", authenticateToken, async (req, res) => {
+  const { title, content, tags } = req.body;
+  const { user } = req.user;
+
+  if (!title) {
+    res.status(400).json({ error: true, message: "Title is required" });
   }
 });
 
