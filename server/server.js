@@ -120,11 +120,12 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// Add Notes
-app.post("/add-note/:noteId", authenticateToken, async (req, res) => {
+// Add Note route
+app.post("/add-note", authenticateToken, async (req, res) => {
   const { title, content, tags = [], isPinned = false } = req.body; // Default tags to empty array and isPinned to false
-  const { id: user_id } = req.user; // Extract user_id from req.user
+  const { id: user_id } = req.user; // Extract user_id from req.user, which comes from the JWT token
 
+  // Validation for title and content
   if (!title) {
     return res.status(400).json({ error: true, message: "Title is required" });
   }
@@ -136,24 +137,60 @@ app.post("/add-note/:noteId", authenticateToken, async (req, res) => {
   }
 
   try {
+    // Insert new note into the database, with user_id, title, content, tags, and isPinned
     const result = await db.query(
       `INSERT INTO notes (user_id, title, content, tags, isPinned) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
       [user_id, title, content, tags, isPinned]
     );
 
+    // Respond with a success message and the newly added note
     res.status(201).json({
       success: true,
       message: "Note added successfully",
       note: result.rows[0],
     });
   } catch (err) {
+    // Handle any errors during the database operation
+    console.error("Error adding note:", err.message);
     res.status(500).json({ message: "Server error", error: err.message });
   }
 });
 
-// Edit Note
-app.put("/edit-note", authenticateToken, async (req, res) => {
+// Edit Note route
+app.put("/edit-note/:noteId", authenticateToken, async (req, res) => {
+  const { title, content, tags, isPinned } = req.body;
+  const { noteId } = req.params; // Get the noteId from the URL parameter
+  const { id: userId } = req.user; // Get user_id from the JWT token in req.user
+
+  // Validate required fields
+  if (!title || !content) {
+    return res.status(400).json({ message: "Title and content are required." });
+  }
+
   try {
+    // Ensure that the note belongs to the authenticated user
+    const noteResult = await db.query(
+      "SELECT * FROM notes WHERE id = $1 AND user_id = $2",
+      [noteId, userId]
+    );
+
+    if (noteResult.rows.length === 0) {
+      return res.status(404).json({
+        message: "Note not found or you are not authorized to edit this note.",
+      });
+    }
+
+    // Update the note
+    const updatedNoteResult = await db.query(
+      "UPDATE notes SET title = $1, content = $2, tags = $3, isPinned = $4 WHERE id = $5 RETURNING *",
+      [title, content, tags, isPinned, noteId]
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Note updated successfully",
+      note: updatedNoteResult.rows[0],
+    });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }
