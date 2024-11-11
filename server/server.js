@@ -196,4 +196,23 @@ app.put("/edit-note/:noteId", authenticateToken, async (req, res) => {
   }
 });
 
+// Get All Notes
+app.get("/notes", authenticateToken, async (req, res) => {
+  const { id: user_id } = req.user; // Extract user_id from req.user
+
+  try {
+    const notes = await db.query("SELECT * FROM notes WHERE user_id = $1", [
+      user_id,
+    ]);
+
+    return res.json({
+      error: false,
+      notes: notes.rows, // Return only the rows of notes
+      message: "All notes retrieved successfully",
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
+
 app.listen(3000, () => console.log("Server running on port 3000"));
