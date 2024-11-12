@@ -76,6 +76,9 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+// Get User
+app.get("/get-users", async (req, res) => {});
+
 // Login to the Account
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
