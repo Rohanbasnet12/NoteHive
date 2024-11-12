@@ -77,7 +77,25 @@ app.post("/signup", async (req, res) => {
 });
 
 // Get User
-app.get("/get-users", async (req, res) => {});
+app.get("/get-user", authenticateToken, async (req, res) => {
+  const { id: userId } = req.user; // Get user_id from the JWT token in req.user
+  try {
+    const isUser = await db.query("SELECT * FROM users WHERE id = $1", [
+      userId,
+    ]);
+
+    if (isUser.rows.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.json({
+      user: isUser.rows[0], // Return only the user data
+      message: "User retrieved successfully",
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
 
 // Login to the Account
 app.post("/login", async (req, res) => {
