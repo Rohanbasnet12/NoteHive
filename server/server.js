@@ -197,7 +197,7 @@ app.put("/edit-note/:noteId", authenticateToken, async (req, res) => {
 });
 
 // Get All Notes
-app.get("/notes", authenticateToken, async (req, res) => {
+app.get("/get-notes", authenticateToken, async (req, res) => {
   const { id: user_id } = req.user; // Extract user_id from req.user
 
   try {
@@ -215,8 +215,6 @@ app.get("/notes", authenticateToken, async (req, res) => {
   }
 });
 
-// Delete Notes
-// Delete Notes
 // Delete Specific Note
 app.delete("/delete-note/:noteId", authenticateToken, async (req, res) => {
   const { id: user_id } = req.user; // Extract user_id from req.user
@@ -243,5 +241,45 @@ app.delete("/delete-note/:noteId", authenticateToken, async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 });
+
+// Update isPinned Value
+app.put(
+  "/update-note-isPinned/:noteId",
+  authenticateToken,
+  async (req, res) => {
+    const { isPinned } = req.body;
+    const { noteId } = req.params; // Get the noteId from the URL parameter
+    const { id: userId } = req.user; // Get user_id from the JWT token in req.user
+
+    try {
+      // Ensure that the note belongs to the authenticated user
+      const noteResult = await db.query(
+        "SELECT * FROM notes WHERE id = $1 AND user_id = $2",
+        [noteId, userId]
+      );
+
+      if (noteResult.rows.length === 0) {
+        return res.status(404).json({
+          message:
+            "Note not found or you are not authorized to update this note.",
+        });
+      }
+
+      // Update the note with user_id condition
+      const updatedNoteResult = await db.query(
+        "UPDATE notes SET isPinned = $1 WHERE id = $2 AND user_id = $3 RETURNING *",
+        [isPinned, noteId, userId]
+      );
+
+      res.status(200).json({
+        success: true,
+        message: "Note updated successfully",
+        note: updatedNoteResult.rows[0],
+      });
+    } catch (err) {
+      res.status(500).json({ message: "Server error", error: err.message });
+    }
+  }
+);
 
 app.listen(3000, () => console.log("Server running on port 3000"));
