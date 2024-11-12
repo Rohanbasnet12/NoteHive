@@ -89,7 +89,12 @@ app.get("/get-user", authenticateToken, async (req, res) => {
     }
 
     return res.json({
-      user: isUser.rows[0], // Return only the user data
+      user: {
+        username: isUser.rows[0].username,
+        email: isUser.rows[0].email,
+        id: isUser.rows[0].id,
+        createdOn: isUser.rows[0].created_on,
+      }, // Return only the user data
       message: "User retrieved successfully",
     });
   } catch (err) {
