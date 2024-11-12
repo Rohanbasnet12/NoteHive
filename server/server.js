@@ -215,4 +215,33 @@ app.get("/notes", authenticateToken, async (req, res) => {
   }
 });
 
+// Delete Notes
+// Delete Notes
+// Delete Specific Note
+app.delete("/delete-note/:noteId", authenticateToken, async (req, res) => {
+  const { id: user_id } = req.user; // Extract user_id from req.user
+  const { noteId } = req.params; // Extract noteId from route params
+
+  try {
+    const result = await db.query(
+      "DELETE FROM notes WHERE user_id = $1 AND id = $2",
+      [user_id, noteId]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({
+        error: true,
+        message: "Note not found or you are not authorized to delete this note",
+      });
+    }
+
+    return res.json({
+      error: false,
+      message: "Note deleted successfully",
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
+
 app.listen(3000, () => console.log("Server running on port 3000"));
