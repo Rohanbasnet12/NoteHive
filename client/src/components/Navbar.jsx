@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ProfileCard from "./ProfileCard";
 import SearchBar from "./SearchBar";
 
-const Navbar = () => {
+const Navbar = ({ userInfo }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = () => {
@@ -28,7 +28,7 @@ const Navbar = () => {
           />
         </div>
         <div className="nav-profile-card">
-          <ProfileCard />
+          <ProfileCard userInfo={userInfo} />
         </div>
       </nav>
     </header>

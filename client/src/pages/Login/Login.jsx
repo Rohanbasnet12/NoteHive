@@ -21,14 +21,10 @@ const Login = () => {
         password: values.password,
       });
 
-      console.log("Full response:", response); // Check full response structure
-      console.log("Response data:", response.data); // Log response data to confirm structure
-
       // Adjust for different potential response structures
       const token = response.data?.accessToken || response.data?.token;
       if (token) {
         localStorage.setItem("token", token); // Store token in local storage
-        console.log("Token saved successfully. Navigating to '/'");
         navigate("/"); // Redirect to homepage
       } else {
         console.error("Access token missing in response");
