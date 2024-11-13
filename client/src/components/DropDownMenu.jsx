@@ -1,6 +1,6 @@
 import React from "react";
 
-const DropDownMenu = ({ fullName }) => {
+const DropDownMenu = ({ fullName, onLogOut }) => {
   return (
     <div
       id="DropDownMenu"
@@ -8,7 +8,10 @@ const DropDownMenu = ({ fullName }) => {
     >
       <h3 className="border-b-2 pb-3">{fullName}</h3>
 
-      <li className="list-none mt-3 py-1 border bg-blue-300 flex items-center justify-center rounded-md font-semibold cursor-pointer">
+      <li
+        className="list-none mt-3 py-1 border bg-blue-300 flex items-center justify-center rounded-md font-semibold cursor-pointer"
+        onClick={onLogOut}
+      >
         LogOut
       </li>
     </div>

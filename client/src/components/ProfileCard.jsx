@@ -1,17 +1,12 @@
 import React, { useState } from "react";
 import DropDownMenu from "./DropDownMenu";
-import Loader from "../assets/Loader.gif";
 
-const ProfileCard = ({ userInfo }) => {
+const ProfileCard = ({ userInfo, onLogOut }) => {
   const [showDropDown, setShowDropDown] = useState(false);
 
   // If userInfo is not available, render the loader
   if (!userInfo || !userInfo.username) {
-    return (
-      <div className="flex justify-center items-center">
-        <img src={Loader} alt="Loading..." />
-      </div>
-    );
+    return null;
   }
 
   return (
@@ -25,7 +20,9 @@ const ProfileCard = ({ userInfo }) => {
         </h1>
       </div>
       <div className="dropDown-profile-item">
-        {showDropDown && <DropDownMenu fullName={userInfo.username} />}
+        {showDropDown && (
+          <DropDownMenu fullName={userInfo.username} onLogOut={onLogOut} />
+        )}
       </div>
     </div>
   );
