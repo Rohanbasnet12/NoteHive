@@ -15,11 +15,27 @@ const Home = () => {
     data: null,
   });
 
+  const [allNotes, setAllNotes] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
   const navigate = useNavigate();
 
   // Get User Info
   const getUserInfo = async () => {
+    try {
+      const response = await axiosInstance("/get-notes");
+      if (response.data && response.data.user) {
+        setAllNotes(response.data.user);
+      }
+    } catch (error) {
+      if (error.response.status === 401) {
+        localStorage.clear();
+        navigate("/login");
+      }
+    }
+  };
+
+  // Get all notes
+  const getAllNote = async () => {
     try {
       const response = await axiosInstance("/get-user");
       if (response.data && response.data.user) {
@@ -34,6 +50,7 @@ const Home = () => {
   };
 
   useEffect(() => {
+    getAllNote();
     getUserInfo();
     return () => {};
   }, []);
