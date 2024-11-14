@@ -1,4 +1,5 @@
 import React from "react";
+import { LuPin } from "react-icons/lu";
 
 const NoteCard = ({
   title,
@@ -18,19 +19,21 @@ const NoteCard = ({
           <span className="text-xs text-slate-500">{date}</span>
         </div>
 
-        <i
-          className={`${
-            isPinned
-              ? "hover:text-blue-500 text-xl cursor-pointer text-slate-300"
-              : "text-slate-400"
-          } fa-solid fa-thumbtack`}
+        <LuPin
+          className={`text-xl cursor-pointer hover:text-blue-600 ${
+            isPinned ? "text-blue-600" : "text-slate-400"
+          }`}
           onClick={onPinNote}
         />
       </div>
       <p className="text-xs text-slate-600 mt-2">{content?.slice(0, 60)}</p>
 
       <div className="flex items-center justify-between mt-2">
-        <div className="text-xs text-blue-800">{tags}</div>
+        <div className="text-xs text-blue-800">
+          {tags.map((item, index) => (
+            <span key={index}> #{item} </span>
+          ))}
+        </div>
         <div className="flex items-center gap-4">
           <i
             className="fa-solid text-slate-500 fa-pen hover:text-green-500"

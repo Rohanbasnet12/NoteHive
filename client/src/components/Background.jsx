@@ -4,10 +4,10 @@ const Background = () => {
   return (
     <div>
       <div
-        className="wrapper flex items-center justify-center fixed top-[50%] left-[50%] bg-transparent"
+        className="wrapper flex items-center justify-center fixed top-[50%] left-[50%] bg-transparent z-[-10]"
         style={{ transform: "translate(-50%, -50%)" }}
       >
-        <h1 className="md:text-[12vw] lg:text-[12vw] sm:text-[6vw] text-slate-900/20 select-none bg-transparent relative z-[-10]">
+        <h1 className="md:text-[12vw] lg:text-[12vw] sm:text-[6vw] text-slate-900/20 select-none bg-transparent">
           NoteHive<span className="text-orange-600/40">.</span>
         </h1>
       </div>

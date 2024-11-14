@@ -63,7 +63,7 @@ const Home = () => {
       <Background />
       <div id="home" className="w-full px-6 mt-5">
         <div className="container mx-auto">
-          <div className="noteWrapper grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 gap-4 mt-8">
+          <div className="noteWrapper grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 gap-4 mt-8 bg-transparent">
             {allNotes.map((note) => (
               <NoteCard
                 key={note.id}
@@ -71,7 +71,7 @@ const Home = () => {
                 date={moment(note.createdon).format("Do MMM YYYY")}
                 content={note.content}
                 tags={note.tags}
-                isPinned={note.isPinned}
+                isPinned={note.ispinned}
                 onDelete={() => {}}
                 onEdit={() => {}}
                 onPinNote={() => {}}
@@ -122,6 +122,7 @@ const Home = () => {
           onclose={() => {
             setOpenAddEditModal({ isShown: false, type: "add", data: null });
           }}
+          getAllNotes={getAllNotes}
         />
       </Modal>
     </>
