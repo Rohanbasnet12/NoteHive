@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import TagInput from "../../components/TagInput";
 import axiosInstance from "../../utils/axiosInstance";
 
-const AddEditNote = ({ noteData, type, onclose, getAllNotes }) => {
+const AddEditNote = ({ noteData = {}, type, onclose, getAllNotes }) => {
   const [title, setTitle] = useState(noteData.title || "");
   const [content, setContent] = useState(noteData.content || "");
   const [tags, setTags] = useState(noteData.tags || []);
@@ -40,7 +40,37 @@ const AddEditNote = ({ noteData, type, onclose, getAllNotes }) => {
   };
 
   // Edit Note
-  const editNote = async () => {};
+  const editNote = async () => {
+    try {
+      const token = localStorage.getItem("token"); // Or sessionStorage, depending on where you're storing the token
+      const response = await axiosInstance.put(
+        `/edit-note/${noteData.id}`,
+        { title, content, tags },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Attach the token to the Authorization header
+          },
+        }
+      );
+
+      if (response.data && response.data.success) {
+        getAllNotes(); // Refresh the notes list after editing
+        onclose(); // Close the modal after successfully editing the note
+      } else {
+        setError("Failed to edit note. Please try again.");
+      }
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setError(error.response.data.message);
+      } else {
+        setError("An unexpected error occurred. Please try again.");
+      }
+    }
+  };
 
   const handleAddNote = () => {
     if (!title) {
@@ -115,7 +145,7 @@ const AddEditNote = ({ noteData, type, onclose, getAllNotes }) => {
         className="btn-primary font-medium mt-5 p-3"
         onClick={handleAddNote}
       >
-        Add
+        {type === "edit" ? "Update" : "Add"}
       </button>
     </div>
   );
