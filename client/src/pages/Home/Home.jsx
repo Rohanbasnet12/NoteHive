@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import Background from "../../components/Background";
 import NoteCard from "../../components/NoteCard";
@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
 
 Modal.setAppElement("#root");
+
 const Home = () => {
   const [openAddEditModal, setOpenAddEditModal] = useState({
     isShown: false,
@@ -15,34 +16,35 @@ const Home = () => {
     data: null,
   });
 
-  const [allNotes, setAllNotes] = useState(null);
+  const [allNotes, setAllNotes] = useState([]); // Initialize as an empty array
   const [userInfo, setUserInfo] = useState(null);
   const navigate = useNavigate();
 
-  // Get User Info
+  // Fetch user information
   const getUserInfo = async () => {
-    try {
-      const response = await axiosInstance("/get-notes");
-      if (response.data && response.data.user) {
-        setAllNotes(response.data.user);
-      }
-    } catch (error) {
-      if (error.response.status === 401) {
-        localStorage.clear();
-        navigate("/login");
-      }
-    }
-  };
-
-  // Get all notes
-  const getAllNote = async () => {
     try {
       const response = await axiosInstance("/get-user");
       if (response.data && response.data.user) {
         setUserInfo(response.data.user);
       }
     } catch (error) {
-      if (error.response.status === 401) {
+      if (error.response?.status === 401) {
+        localStorage.clear();
+        navigate("/login");
+      }
+    }
+  };
+
+  // Fetch all notes
+  const getAllNotes = async () => {
+    try {
+      const response = await axiosInstance("/get-notes");
+      if (response.data && response.data.notes) {
+        // Assuming 'notes' is the key in the response
+        setAllNotes(response.data.notes);
+      }
+    } catch (error) {
+      if (error.response?.status === 401) {
         localStorage.clear();
         navigate("/login");
       }
@@ -50,9 +52,8 @@ const Home = () => {
   };
 
   useEffect(() => {
-    getAllNote();
     getUserInfo();
-    return () => {};
+    getAllNotes();
   }, []);
 
   return (
@@ -62,16 +63,19 @@ const Home = () => {
       <div id="home" className="w-full px-6 mt-5">
         <div className="container mx-auto">
           <div className="noteWrapper grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 gap-4 mt-8">
-            <NoteCard
-              title="GYM"
-              date="28 october 2024"
-              content="Go to the GYM at 6:30"
-              tags="#GYM"
-              isPinned={true}
-              onDelete={() => {}}
-              onEdit={() => {}}
-              onPinNote={() => {}}
-            />
+            {allNotes.map((note) => (
+              <NoteCard
+                key={note.id}
+                title={note.title}
+                date={note.date}
+                content={note.content}
+                tags={note.tags}
+                isPinned={note.isPinned}
+                onDelete={() => {}}
+                onEdit={() => {}}
+                onPinNote={() => {}}
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -87,7 +91,9 @@ const Home = () => {
 
       <Modal
         isOpen={openAddEditModal.isShown}
-        onRequestClose={() => {}}
+        onRequestClose={() => {
+          setOpenAddEditModal({ isShown: false, type: "add", data: null });
+        }}
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.3)",
