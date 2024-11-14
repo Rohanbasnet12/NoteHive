@@ -3,9 +3,9 @@ import TagInput from "../../components/TagInput";
 import axiosInstance from "../../utils/axiosInstance";
 
 const AddEditNote = ({ noteData, type, onclose, getAllNotes }) => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [tags, setTags] = useState([]);
+  const [title, setTitle] = useState(noteData.title || "");
+  const [content, setContent] = useState(noteData.content || "");
+  const [tags, setTags] = useState(noteData.tags || []);
   const [error, setError] = useState(null);
 
   // Add Note
