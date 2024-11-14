@@ -16,18 +16,25 @@ const AddEditNote = ({ noteData, type, onclose, getAllNotes }) => {
         content,
         tags,
       });
-      if (response.data && response.data.notes) {
-        // Assuming 'notes' is the key in the response
-        getAllNotes();
-        onclose();
+
+      // Check for successful response; adjust if needed based on backend response structure
+      if (response.data && response.data.success) {
+        // Assuming your backend sends a success indicator
+        getAllNotes(); // Refresh the notes list
+        onclose(); // Close the modal after successfully adding the note
+      } else {
+        setError("Failed to add note. Please try again."); // Show generic error if success is missing
       }
     } catch (error) {
+      // Capture specific error message from backend or display a generic error
       if (
         error.response &&
         error.response.data &&
         error.response.data.message
       ) {
         setError(error.response.data.message);
+      } else {
+        setError("An unexpected error occurred. Please try again.");
       }
     }
   };
@@ -50,7 +57,7 @@ const AddEditNote = ({ noteData, type, onclose, getAllNotes }) => {
     if (type === "edit") {
       editNote();
     } else {
-      AddEditNote();
+      addNewNote();
     }
   };
 
