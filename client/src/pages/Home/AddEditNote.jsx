@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import TagInput from "../../components/TagInput";
 import axiosInstance from "../../utils/axiosInstance";
 
-const AddEditNote = ({ noteData, type, onclose, getAllNotes }) => {
+const AddEditNote = ({
+  noteData,
+  type,
+  onclose,
+  getAllNotes,
+  showToastMessage,
+}) => {
   const [title, setTitle] = useState(noteData?.title || "");
   const [content, setContent] = useState(noteData?.content || "");
   const [tags, setTags] = useState(noteData?.tags || []);
@@ -20,6 +26,7 @@ const AddEditNote = ({ noteData, type, onclose, getAllNotes }) => {
       // Check for successful response; adjust if needed based on backend response structure
       if (response.data && response.data.success) {
         // Assuming your backend sends a success indicator
+        showToastMessage("Note added Successfully");
         getAllNotes(); // Refresh the notes list
         onclose(); // Close the modal after successfully adding the note
       } else {
@@ -50,6 +57,7 @@ const AddEditNote = ({ noteData, type, onclose, getAllNotes }) => {
       });
 
       if (response.data && response.data.success) {
+        showToastMessage("Note updated Successfully");
         getAllNotes();
         onclose(); // Close the modal after successfully adding the note
       } else {
