@@ -12,8 +12,7 @@ const SignUp = () => {
 
   const onSubmit = async (values, actions) => {
     try {
-      setErrorMessage(""); // Clear any previous error messages on submit
-      console.log("Attempting signUp with values:", values); // Log form values for debugging
+      setErrorMessage("");
 
       // Make the API request to sign up
       const response = await axiosInstance.post("/signup", {

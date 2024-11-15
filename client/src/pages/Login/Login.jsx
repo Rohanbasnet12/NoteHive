@@ -13,8 +13,6 @@ const Login = () => {
   // Login form submission handler
   const onSubmit = async (values, actions) => {
     try {
-      console.log("Attempting login with values:", values); // Log form values for debugging
-
       // Make the API request to log in
       const response = await axiosInstance.post("/login", {
         email: values.email,
