@@ -78,6 +78,27 @@ const Home = () => {
     }
   };
 
+  // Delete Note
+  const deleteNote = async (data) => {
+    try {
+      const response = await axiosInstance.delete(`/delete-note/${data.id}`);
+
+      if (response.data && !response.data.error) {
+        showToastMessage("Note Deleted Successfully", "delete");
+        getAllNotes();
+      }
+    } catch (error) {
+      // Capture specific error message from backend or display a generic error
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        console.log("An unexpected error occurred. Please try again.");
+      }
+    }
+  };
+
   useEffect(() => {
     getUserInfo();
     getAllNotes();
@@ -98,7 +119,9 @@ const Home = () => {
                 content={note.content}
                 tags={note.tags}
                 isPinned={note.ispinned}
-                onDelete={() => {}}
+                onDelete={() => {
+                  deleteNote(note);
+                }}
                 onEdit={() => {
                   handleEdit(note);
                 }}
