@@ -34,7 +34,7 @@ const Home = () => {
 
   const showToastMessage = (message, type) => {
     setShowToastMsg({
-      isShown: false,
+      isShown: true,
       message,
       type,
     });
