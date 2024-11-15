@@ -42,24 +42,21 @@ const AddEditNote = ({ noteData, type, onclose, getAllNotes }) => {
   // Edit Note
   const editNote = async () => {
     try {
-      const token = localStorage.getItem("token"); // Or sessionStorage, depending on where you're storing the token
-      const response = await axiosInstance.put(
-        `/edit-note/${noteData.id}`,
-        { title, content, tags },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Attach the token to the Authorization header
-          },
-        }
-      );
+      const response = await axiosInstance.put(`/edit-note/${noteData.id}`, {
+        title,
+        content,
+        tags,
+        isPinned: noteData.isPinned,
+      });
 
       if (response.data && response.data.success) {
-        getAllNotes(); // Refresh the notes list after editing
-        onclose(); // Close the modal after successfully editing the note
+        getAllNotes();
+        onclose(); // Close the modal after successfully adding the note
       } else {
         setError("Failed to edit note. Please try again.");
       }
     } catch (error) {
+      // Capture specific error message from backend or display a generic error
       if (
         error.response &&
         error.response.data &&
