@@ -9,7 +9,8 @@ import axiosInstance from "../../utils/axiosInstance";
 import moment from "moment";
 import Toast from "../../components/ToastMessage/Toast";
 import EmptyCard from "../../components/EmptyCard";
-import imgSrc from "../../assets/emptyCard.png";
+import EmptyCardImg from "../../assets/emptyCard.png";
+import NothingFoundImg from "../../assets/noteNotFound.png";
 
 Modal.setAppElement("#root");
 
@@ -111,16 +112,29 @@ const Home = () => {
         params: { query },
       });
 
-      if (response.data && response.data.notes) {
+      if (
+        response.data &&
+        response.data.notes &&
+        response.data.notes.length > 0
+      ) {
+        // If there are notes, update the state
         setIsSearch(true);
         setAllNotes(response.data.notes);
       } else {
-        setAllNotes([]); // Handle no results
+        // If no notes are found, show an empty state with the "no notes found" image
+        setIsSearch(true);
+        setAllNotes([]);
       }
     } catch (error) {
       console.error(error.response?.data?.message || "Search failed.");
+      // In case of an error, ensure the state is updated to reflect no results
+      setIsSearch(true);
+      setAllNotes([]);
     }
   };
+
+  // Update isPinned
+  const updateIsPinned = async (noteData) => {};
 
   useEffect(() => {
     getUserInfo();
@@ -155,8 +169,18 @@ const Home = () => {
             </div>
           ) : (
             <EmptyCard
-              imgSrc={imgSrc}
-              message={`Ready to capture your ideas, thoughts, and reminders? Click the 'Add' button to create your first note and get started!`}
+              imgSrc={
+                isSearch
+                  ? allNotes.length === 0
+                    ? NothingFoundImg
+                    : EmptyCardImg
+                  : EmptyCardImg
+              }
+              message={
+                isSearch
+                  ? `No results found. Please refine your query and try again.`
+                  : `Ready to capture your ideas, thoughts, and reminders? Click the 'Add' button to create your first note and get started!`
+              }
             />
           )}
         </div>
