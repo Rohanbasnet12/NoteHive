@@ -1,0 +1,6 @@
+@media (max-width: 768px) {
+  .searchBar,
+  .profileCard {
+    opacity: 0;
+  }
+}
