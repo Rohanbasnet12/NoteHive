@@ -9,6 +9,7 @@ import axiosInstance from "../../utils/axiosInstance";
 import moment from "moment";
 import Toast from "../../components/ToastMessage/Toast";
 import EmptyCard from "../../components/EmptyCard";
+import imgSrc from "../../assets/emptyCard.png";
 
 Modal.setAppElement("#root");
 
@@ -132,7 +133,10 @@ const Home = () => {
               ))}
             </div>
           ) : (
-            <EmptyCard />
+            <EmptyCard
+              imgSrc={imgSrc}
+              message={`Ready to capture your ideas, thoughts, and reminders? Click the 'Add' button to create your first note and get started!`}
+            />
           )}
         </div>
       </div>
