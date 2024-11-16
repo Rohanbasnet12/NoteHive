@@ -21,7 +21,6 @@ const AddEditNote = ({
         title,
         content,
         tags,
-        isPinned: isPinned || false,
       });
 
       // Check for successful response; adjust if needed based on backend response structure

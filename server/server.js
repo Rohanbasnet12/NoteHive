@@ -308,4 +308,45 @@ app.put(
   }
 );
 
+// Search Note
+app.get("/search-note", authenticateToken, async (req, res) => {
+  const { id: userId } = req.user; // Get user_id from the JWT token in req.user
+  const { query } = req.query; // Get search query from query parameters
+
+  if (!query) {
+    return res.status(400).json({
+      error: true,
+      message: "Search query is required!",
+    });
+  }
+
+  try {
+    // Search for notes that match the query in title or content
+    const matchingNotesResult = await db.query(
+      `SELECT * FROM notes 
+       WHERE user_id = $1 AND 
+       (title ILIKE $2 OR content ILIKE $2)`,
+      [userId, `%${query}%`]
+    );
+
+    if (matchingNotesResult.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No notes found matching your search query.",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Matching notes retrieved successfully",
+      notes: matchingNotesResult.rows, // Return all matching notes
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "Server error",
+      error: err.message,
+    });
+  }
+});
+
 app.listen(3000, () => console.log("Server running on port 3000"));

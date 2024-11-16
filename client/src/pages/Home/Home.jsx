@@ -28,6 +28,9 @@ const Home = () => {
 
   const [allNotes, setAllNotes] = useState([]); // Initialize as an empty array
   const [userInfo, setUserInfo] = useState(null);
+
+  const [isSearch, setIsSearch] = useState(false); // UseState for isSearch Query
+
   const navigate = useNavigate();
 
   const handleEdit = (noteDetails) => {
@@ -89,6 +92,22 @@ const Home = () => {
         showToastMessage("Note Deleted Successfully", "delete");
         getAllNotes();
       }
+    } catch (error) {
+      // Capture specific error message from backend or display a generic error
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        console.log("An unexpected error occurred. Please try again.");
+      }
+    }
+  };
+
+  // Search Note
+  const searchNote = async (query) => {
+    try {
+      const response = await axiosInstance.get("/search-note");
     } catch (error) {
       // Capture specific error message from backend or display a generic error
       if (
