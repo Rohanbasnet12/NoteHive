@@ -107,16 +107,18 @@ const Home = () => {
   // Search Note
   const searchNote = async (query) => {
     try {
-      const response = await axiosInstance.get("/search-note");
-    } catch (error) {
-      // Capture specific error message from backend or display a generic error
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        console.log("An unexpected error occurred. Please try again.");
+      const response = await axiosInstance.get("/search-note", {
+        params: { query },
+      });
+
+      if (response.data && response.data.notes) {
+        setIsSearch(true);
+        setAllNotes(response.data.notes);
+      } else {
+        setAllNotes([]); // Handle no results
       }
+    } catch (error) {
+      console.error(error.response?.data?.message || "Search failed.");
     }
   };
 
@@ -127,7 +129,7 @@ const Home = () => {
 
   return (
     <>
-      <Navbar userInfo={userInfo} />
+      <Navbar userInfo={userInfo} searchNote={searchNote} />
       <Background />
       <div id="home" className="w-full px-6 mt-5">
         <div className="container mx-auto">
