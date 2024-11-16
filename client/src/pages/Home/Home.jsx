@@ -134,7 +134,25 @@ const Home = () => {
   };
 
   // Update isPinned
-  const updateIsPinned = async (noteData) => {};
+  const updateIsPinned = async (noteData) => {
+    try {
+      const response = await axiosInstance.put(
+        `/update-note-isPinned/${noteData.id}`,
+        {
+          isPinned: !noteData.isPinned,
+        }
+      );
+
+      if (response.data && response.data.success) {
+        showToastMessage("Note updated Successfully");
+        getAllNotes();
+      } else {
+        setError("Failed to edit note. Please try again.");
+      }
+    } catch (error) {
+      setError("An unexpected error occurred. Please try again.", error);
+    }
+  };
 
   useEffect(() => {
     getUserInfo();
@@ -163,7 +181,9 @@ const Home = () => {
                   onEdit={() => {
                     handleEdit(note);
                   }}
-                  onPinNote={() => {}}
+                  onPinNote={() => {
+                    updateIsPinned(note);
+                  }}
                 />
               ))}
             </div>
