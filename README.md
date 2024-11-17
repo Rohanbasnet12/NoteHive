@@ -4,7 +4,7 @@ NoteHive is a full-stack web application designed to simplify note-taking with a
 create, organize, and manage their notes effortlessly.
 
 ### Screenshots
-![NoteHive](./assets/noteHive.png)
+![NoteHive](./client/src/assets/noteHive.png)
 
 ## Features
 - **User Authentication**: Sign up and log in securely.
