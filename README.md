@@ -1,6 +1,10 @@
 # NoteHive
 
-NoteHive is a full-stack web application designed to simplify note-taking with a modern user interface and efficient functionality. It provides users with an intuitive platform to create, organize, and manage their notes effortlessly.
+NoteHive is a full-stack web application designed to simplify note-taking with a modern user interface and efficient functionality. It provides users with an intuitive platform to 
+create, organize, and manage their notes effortlessly.
+
+### Screenshots
+![NoteHive](./assets/noteHive.png)
 
 ## Features
 - **User Authentication**: Sign up and log in securely.
@@ -33,13 +37,33 @@ Ensure you have the following installed:
 
 ### Steps
 1. **Clone the Repository**:
-```bash
+  ```bash
    git clone https://github.com/your-username/notehive.git
    cd notehive
 
 2. **Install Dependencies**:
-```bash
+  ```bash
    git clone https://github.com/your-username/notehive.git
    cd notehive
 
 3. **Set Up the Database**:
+-Create a PostgreSQL database.
+-Configure the database connection in the .env file:
+  ```bash
+  DB_USER=your_db_user
+  DB_PASSWORD=your_db_password
+  DB_HOST=localhost
+  DB_PORT=5432
+  DB_NAME=notehive
+4. **Run the Backend**:
+  ```bash
+  npm run dev
+5. **Run the Frontend**:
+  ```bash
+cd client
+npm start
+
+### Usage
+- Sign up or log in to your account.
+- Start creating, pinning, editing, and deleting notes.
+- Use the search bar to quickly find specific notes.
