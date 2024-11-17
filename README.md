@@ -54,7 +54,7 @@ cd notehive
 
 ```bash
 npm install
-
+```
 ### 4. Set Up the Database:
 
 - Create a PostgreSQL database.
