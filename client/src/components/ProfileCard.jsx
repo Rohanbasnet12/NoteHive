@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DropDownMenu from "./DropDownMenu";
 
-const ProfileCard = ({ userInfo, onLogOut }) => {
+const ProfileCard = ({ userInfo, onLogOut, isMobile }) => {
   const [showDropDown, setShowDropDown] = useState(false);
 
   // If userInfo is not available, render the loader
@@ -21,7 +21,11 @@ const ProfileCard = ({ userInfo, onLogOut }) => {
       </div>
       <div className="dropDown-profile-item">
         {showDropDown && (
-          <DropDownMenu fullName={userInfo.username} onLogOut={onLogOut} />
+          <DropDownMenu
+            fullName={userInfo.username}
+            onLogOut={onLogOut}
+            isMobile={isMobile}
+          />
         )}
       </div>
     </div>

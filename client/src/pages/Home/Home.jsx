@@ -235,7 +235,7 @@ const Home = () => {
             top: "15%",
             left: "50%",
             transform: "translateX(-125%)",
-            zIndex: 100,
+            zIndex: 40,
           },
         }}
         contentLabel=""

@@ -1,6 +1,23 @@
+/* Mobile Styles */
+.hamburger-icon {
+  display: block;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+@media (min-width: 769px) {
+  .hamburger-icon {
+    display: none; /* Hide hamburger icon on larger screens */
+  }
+
+  .nav-menu {
+    display: flex; /* Show menu items inline */
+  }
+}
+
 @media (max-width: 768px) {
-  .searchBar,
-  .profileCard {
-    opacity: 0;
+  .nav-menu {
+    display: none; /* Hide menu items by default on mobile */
   }
 }
