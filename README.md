@@ -48,3 +48,32 @@ Follow these steps to set up and run NoteHive locally.
 ```bash
 git clone https://github.com/your-username/notehive.git
 cd notehive
+
+### 3. Install Dependencies
+
+```bash
+npm install
+
+### 4. Set Up the Database:
+
+- Create a PostgreSQL database.
+- Configure the database connection in the .env file:
+
+```bash
+DB_USER=your_db_user
+DB_PASSWORD=your_db_password
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=notehive
+
+### 5. Run the Backend:
+
+```bash
+cd server
+nodemon server.js
+
+### 6. Run the Frontend:
+
+```bash
+cd client
+npm run dev
