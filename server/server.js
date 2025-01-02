@@ -148,7 +148,18 @@ app.post("/login", async (req, res) => {
       token,
     });
   } catch (err) {
+    console.error("Error during login:", err);
     res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
+
+// Test database connection
+app.get("/test-db", async (req, res) => {
+  try {
+    const result = await db.query("SELECT NOW()");
+    res.json({ success: true, serverTime: result.rows[0].now });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
   }
 });
 
